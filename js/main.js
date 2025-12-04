@@ -1,14 +1,14 @@
 // Main JavaScript file for Bella Nails
 
 // Wait for DOM to load
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // Initialize all components
     initMobileMenu();
     initSmoothScrolling();
     initAnimations();
     initLazyLoading();
-    
+
     console.log('Bella Nails website loaded successfully!');
 });
 
@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function initMobileMenu() {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    
+
     if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function() {
+        mobileMenuButton.addEventListener('click', function () {
             const isOpen = !mobileMenu.classList.contains('hidden');
-            
+
             if (isOpen) {
                 mobileMenu.classList.add('hidden');
                 // Update button icon to hamburger
@@ -41,11 +41,11 @@ function initMobileMenu() {
                 `;
             }
         });
-        
+
         // Close mobile menu when clicking on links
         const mobileMenuLinks = mobileMenu.querySelectorAll('a');
         mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function () {
                 mobileMenu.classList.add('hidden');
                 mobileMenuButton.innerHTML = `
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,9 +54,9 @@ function initMobileMenu() {
                 `;
             });
         });
-        
+
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
                 if (!mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
@@ -76,18 +76,18 @@ function initMobileMenu() {
  */
 function initSmoothScrolling() {
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    
+
     anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             const targetId = href.substring(1);
             const targetElement = document.getElementById(targetId);
-            
+
             if (targetElement && href !== '#') {
                 e.preventDefault();
-                
+
                 const offsetTop = targetElement.offsetTop - 80; // Account for fixed header
-                
+
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
@@ -106,8 +106,8 @@ function initAnimations() {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
-    const observer = new IntersectionObserver(function(entries) {
+
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-fade-up');
@@ -115,21 +115,21 @@ function initAnimations() {
             }
         });
     }, observerOptions);
-    
+
     // Observe elements for animation
     const animatedElements = document.querySelectorAll('.card-premium, .testimonial-card, .team-card, .gallery-item');
     animatedElements.forEach(el => {
         observer.observe(el);
     });
-    
+
     // Header background on scroll
     const header = document.querySelector('nav');
     if (header) {
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY > 50) {
-                header.classList.add('bg-white/95', 'backdrop-blur-sm');
+                header.classList.add('bg-primary/95', 'backdrop-blur-md', 'shadow-lg');
             } else {
-                header.classList.remove('bg-white/95', 'backdrop-blur-sm');
+                header.classList.remove('bg-primary/95', 'backdrop-blur-md', 'shadow-lg');
             }
         });
     }
@@ -140,7 +140,7 @@ function initAnimations() {
  */
 function initLazyLoading() {
     if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver(function(entries) {
+        const imageObserver = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
@@ -151,7 +151,7 @@ function initLazyLoading() {
                 }
             });
         });
-        
+
         const lazyImages = document.querySelectorAll('img[data-src]');
         lazyImages.forEach(img => {
             img.classList.add('opacity-0', 'transition-opacity', 'duration-300');
@@ -171,7 +171,7 @@ function showLoading(button) {
             <div class="loading-spinner mr-2"></div>
             Envoi en cours...
         `;
-        
+
         // Store original content for restoration
         button.dataset.originalContent = originalContent;
     }
@@ -195,9 +195,9 @@ function showSuccessMessage(message) {
             <span>${message}</span>
         </div>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         notification.remove();
@@ -214,9 +214,9 @@ function showErrorMessage(message) {
             <span>${message}</span>
         </div>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         notification.remove();
@@ -237,9 +237,9 @@ function validatePhone(phone) {
 }
 
 function formatDate(date) {
-    const options = { 
-        year: 'numeric', 
-        month: 'long', 
+    const options = {
+        year: 'numeric',
+        month: 'long',
         day: 'numeric',
         locale: 'fr-FR'
     };
@@ -263,7 +263,7 @@ function debounce(func, wait) {
 
 function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
@@ -275,14 +275,14 @@ function throttle(func, limit) {
 }
 
 // Optimize scroll events
-const optimizedScrollHandler = throttle(function() {
+const optimizedScrollHandler = throttle(function () {
     // Any scroll-based functionality
 }, 16); // ~60fps
 
 window.addEventListener('scroll', optimizedScrollHandler);
 
 // Optimize resize events
-const optimizedResizeHandler = debounce(function() {
+const optimizedResizeHandler = debounce(function () {
     // Any resize-based functionality
 }, 250);
 
@@ -298,13 +298,13 @@ function initA11y() {
     skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-pink-600 text-white px-4 py-2 rounded z-50';
     skipLink.textContent = 'Passer au contenu principal';
     document.body.insertBefore(skipLink, document.body.firstChild);
-    
+
     // Keyboard navigation for mobile menu
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
-            
+
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.add('hidden');
                 mobileMenuButton.focus();
@@ -319,12 +319,12 @@ document.addEventListener('DOMContentLoaded', initA11y);
 /**
  * Error Handling
  */
-window.addEventListener('error', function(e) {
+window.addEventListener('error', function (e) {
     console.error('JavaScript Error:', e.error);
     // In production, you might want to send this to an error tracking service
 });
 
-window.addEventListener('unhandledrejection', function(e) {
+window.addEventListener('unhandledrejection', function (e) {
     console.error('Unhandled Promise Rejection:', e.reason);
     // In production, you might want to send this to an error tracking service
 });
